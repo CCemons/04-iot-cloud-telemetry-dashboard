@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IoT Cloud Telemetry Dashboard · Centro de Control SCADA</title>
+  <link rel="stylesheet" href="assets/css/dashboard.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <!-- Barra Lateral de Nodos -->
+    <aside class="sidebar">
+      <div class="sidebar-brand">
+        <span class="logo-dot"></span>
+        <div>
+          <strong>IoT Cloud</strong>
+          <small>SCADA Telemetry Hub</small>
+        </div>
+      </div>
+
+      <div class="sidebar-section-label">Nodos Conectados (4)</div>
+      <nav class="node-list" id="node-list" aria-label="Lista de nodos IoT"></nav>
+
+      <div class="sidebar-footer">
+        <div class="rule-box">
+          <h4>Reglas de Alerta</h4>
+          <label for="threshold-primary">Umbral Alerta Métrica 1</label>
+          <input type="number" id="threshold-primary" step="0.5" value="32" />
+          <label for="threshold-rssi">RSSI Mínimo (dBm)</label>
+          <input type="number" id="threshold-rssi" step="1" value="-82" />
+        </div>
+        <p class="author-credit">Por Camilo Castañeda</p>
+      </div>
+    </aside>
+
+    <!-- Área Principal -->
+    <div class="main-area">
+      <header class="topbar">
+        <div>
+          <h1 id="active-node-title">Nodo 01: Invernadero Arduino</h1>
+          <p class="node-meta" id="active-node-meta">Topic: iot/agro-nano-01/telemetry · Firmware v1.0.0</p>
+        </div>
+        <div class="toolbar-actions">
+          <span class="stream-badge" id="stream-status">● EN VIVO</span>
+          <button type="button" class="btn btn-secondary" id="btn-toggle-stream">Pausar</button>
+          <button type="button" class="btn btn-warning" id="btn-inject-anomaly">Inyectar Anomalía</button>
+          <button type="button" class="btn btn-primary" id="btn-export-csv">Exportar CSV</button>
+          <button type="button" class="btn btn-secondary" id="btn-export-json">JSON</button>
+        </div>
+      </header>
+
+      <main class="content">
+        <!-- Tarjetas KPI -->
+        <section class="kpi-grid" id="kpi-grid"></section>
+
+        <!-- Gráficas Canvas -->
+        <section class="charts-grid">
+          <article class="panel">
+            <div class="panel-header">
+              <h2>Series Temporales en Tiempo Real</h2>
+              <span class="panel-hint" id="chart-window-label">Últimas 40 muestras</span>
+            </div>
+            <canvas id="timeseries-canvas" width="760" height="280"></canvas>
+          </article>
+
+          <article class="panel gauge-panel">
+            <div class="panel-header">
+              <h2>Índice de Salud &amp; Enlace RF</h2>
+              <span class="panel-hint" id="gauge-subtitle">Calidad de Señal</span>
+            </div>
+            <canvas id="gauge-canvas" width="320" height="220"></canvas>
+            <div class="gauge-stats" id="gauge-stats"></div>
+          </article>
+        </section>
+
+        <!-- Consola MQTT y Registro de Alertas -->
+        <section class="bottom-grid">
+          <article class="panel">
+            <div class="panel-header">
+              <h2>Inspector de Tramas MQTT / WebSocket</h2>
+              <button type="button" class="btn-mini" id="btn-clear-console">Limpiar</button>
+            </div>
+            <pre class="mqtt-console" id="mqtt-console"></pre>
+          </article>
+
+          <article class="panel">
+            <div class="panel-header">
+              <h2>Motor de Alertas Activas</h2>
+              <span class="panel-hint" id="alert-count">0 alertas</span>
+            </div>
+            <ul class="alert-list" id="alert-list"></ul>
+          </article>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <script src="assets/js/simulator.js"></script>
+  <script src="assets/js/charts.js"></script>
+  <script src="assets/js/main.js"></script>
+</body>
+</html>
